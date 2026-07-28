@@ -34,3 +34,7 @@ Cross-checked against the resolved contest's judging repo after this finding
 and PoC were complete — confirmed distinct from #409 (active-borrowing DoS via
 `totalBorrows` drain; this bug persists even at `totalBorrows = 0`, since it's
 about unrealized yVault loss, not funds currently on loan).
+
+## Note
+PoC references types from the original cap-contracts repo (not included here);
+intended as documentation, not standalone-runnable.
