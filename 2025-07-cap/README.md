@@ -24,7 +24,10 @@ User B reverts with `ERC20InsufficientBalance(vault, 500000001, 2000000001)`.
 Result: `[PASS]`.
 
 ## Recommendation
-*(paste your actual recommendation from finding-draft.md here)*
+Detect and record losses inside `divest()` (both full and partial variants)
+instead of silently discarding a shortfall, and have `_verifyBalance()`
+cross-check the actual token balance (`IERC20.balanceOf`) alongside the
+existing `totalSupplies - totalBorrows` check before approving a transfer.
 
 ## Independent verification
 Cross-checked against the resolved contest's judging repo after this finding
