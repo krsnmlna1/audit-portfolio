@@ -27,7 +27,7 @@ Claude Code came out roughly **4x cheaper** than AuditAgent's Developer Scan tie
 
 ## Ground truth
 
-Original submission (confirmed non-duplicate of published finding #409): `Vault._verifyBalance()` reads bookkeeping values (`totalSupplies - totalBorrows`) instead of the actual token balance via `IERC20.balanceOf()`. When the underlying yVault takes a loss, this bookkeeping figure never reflects it — the first redeemer succeeds and drains real assets, subsequent redeemers hit `ERC20InsufficientBalance` and are permanently blocked. Verified with `test/Redeem.t.sol` (`test_SecondRedeemerBlockedAfterYVaultLoss`), written during the original retrospective audit.
+Original submission (confirmed non-duplicate of published finding #409): `Vault._verifyBalance()` reads bookkeeping values (`totalSupplies - totalBorrows`) instead of the actual token balance via `IERC20.balanceOf()`. When the underlying yVault takes a loss, this bookkeeping figure never reflects it — the first redeemer succeeds and drains real assets, subsequent redeemers hit `ERC20InsufficientBalance` with no guaranteed recovery path. Verified with `test/Redeem.t.sol` (`test_SecondRedeemerBlockedAfterYVaultLoss`), written during the original retrospective audit.
 
 **Neither AuditAgent nor Claude Code independently rediscovered this mechanism from reading the contracts.** `Vault.sol` and `FractionalReserveLogic.sol` were in scope for both passes; neither flagged the bookkeeping-vs-balance mismatch. This is the single most important data point in this comparison: the actual submitted, confirmed vulnerability was missed by both AI passes on a source-reading basis.
 
